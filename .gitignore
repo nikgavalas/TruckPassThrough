@@ -1,0 +1,25 @@
+# Build output
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+Build/
+
+# IDE and generated project files
+.vs/
+.idea/
+*.sln
+*.suo
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+
+# Compiled files
+*.obj
+*.pdb
+*.dll
+*.lib
+*.exe
+
+.DS_Store
