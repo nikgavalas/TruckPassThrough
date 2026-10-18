@@ -1,18 +1,18 @@
 {
 	"FileVersion": 3,
-	"Version": 0,
-	"VersionName": "0.1.0",
-	"SemVersion": "0.1.0",
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"SemVersion": "1.0.0",
 	"GameVersion": ">=513885",
 	"FriendlyName": "Truck Pass Through",
-	"Description": "Self-driving trucks pass through each other and no longer wait at junctions. Near truck stations they keep vanilla behavior, so only one truck docks at a time and the rest queue.",
+	"Description": "Self-driving trucks pass through each other and no longer wait at junctions. At truck stations they keep vanilla behavior, so only one truck docks at a time and the rest queue. Adds /trucks on|off to switch every truck's autopilot at once.",
 	"Category": "Gameplay",
 	"CreatedBy": "nikgavalas",
 	"CreatedByURL": "https://github.com/nikgavalas/TruckPassThrough",
 	"CanContainContent": false,
 	"RequiredOnRemote": false,
 	"IsBetaVersion": false,
-	"IsExperimentalVersion": true,
+	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [
 		{

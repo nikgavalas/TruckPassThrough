@@ -1,8 +1,10 @@
 # Truck Pass Through
 
-A Satisfactory 1.2 mod that stops truck jams. Self-driving trucks pass through each other and no longer wait at junctions. Near truck stations they keep vanilla behavior, so only one truck docks at a time and the others queue behind it.
+A Satisfactory 1.2 mod that stops truck jams. Self-driving trucks pass through each other and no longer wait at junctions. At truck stations they keep vanilla behavior, so only one truck docks at a time and the others queue behind it.
 
-Status: **0.1.0, untested**. It has not been compiled or run yet. See "Known unknowns" below.
+It also adds `/trucks off` and `/trucks on` to switch every truck's autopilot at once.
+
+Status: **1.0.0**. Tested in single player on Satisfactory 1.2 with about 40 trucks.
 
 ## What it does
 
@@ -11,7 +13,7 @@ In 1.2, self-driving trucks wait for each other in two ways:
 1. **Vehicle avoidance.** A truck slows down for, or stops behind, the vehicle ahead.
 2. **Junction reservations.** Like train block signals, a truck books the junction blocks ahead and waits at the line until they are free.
 
-Away from truck stations, this mod turns both off. A truck counts as "near a station" when it is docked, or within `TPT.StationRadius` (default 30 m) of a station's docking point. Near a station, both rules work as in vanilla.
+Away from truck stations, this mod turns both off. A truck counts as "near a station" when it is docked, or within `TPT.StationRadius` (default 5 m) of a station's docking point. Near a station, both rules work as in vanilla. Trucks away from stations still brake for their own destination station.
 
 The mod also turns off physical collision between wheeled vehicles (trucks, tractors, explorers), so they pass through each other cleanly even when you are standing next to them. This includes vehicles you drive yourself. Collision with terrain, buildings and players is unchanged.
 
@@ -23,7 +25,7 @@ Open the console with `~`.
 |---|---|---|
 | `TPT.Enabled 0/1` | 1 | 0 restores vanilla waiting at junctions and behind other trucks |
 | `TPT.Ghost 0/1` | 1 | 0 restores vanilla physical collision between vehicles |
-| `TPT.StationRadius <cm>` | 3000 | How close to a station's docking point a truck keeps vanilla queueing |
+| `TPT.StationRadius <cm>` | 500 | How close to a station's docking point a truck keeps vanilla queueing. Keep it smaller than the distance from a station to the nearest junction, or trucks wait at that junction as in vanilla. Changes apply immediately, with no need to restart autopilot |
 | `TPT.Status` | | Prints station count, how many autopilot trucks are ghosting vs queueing, vehicle counts by class, and how often each hook has removed a stop. Then lists every self-driving truck that is standing still: whether it is a ghost or vanilla (and why), and what it is braking for. The same block is written to the log every 30 s |
 | `TPT.Autopilot on/off [name filter]` | | Turns self-driving on or off for every vehicle at once, or only for those whose name contains the filter. Host or single player only |
 
@@ -113,14 +115,11 @@ To uninstall, delete the `Mods\TruckPassThrough` folder from the game.
 - `TPT.Enabled 0` brings back vanilla behavior. `TPT.Status` prints sensible numbers.
 - Everything still works after saving and reloading.
 
-## Known unknowns
+## Notes
 
-The game's function bodies are not public. These points come from the headers and need confirming in-game:
-
-- **Inlining.** Checked by disassembling the shipped game DLL: every hooked function is called as a real function, none is inlined. `TPT.Status` also shows a counter per hook. A counter that stays at 0 while trucks drive means that hook never runs.
-- **Other mods.** BetterJunctions hooks `ReserveVehiclePathBlocks_Parallel` too, and changes how trucks near stations queue. Disable it when testing this mod.
-- **Other waiting.** Skipping the reservation stop target may not be the only thing that makes a truck wait at a junction.
-- **Collision channel.** The vehicle collision channel is assumed to be `ECC_Vehicle`. The log lines from step 3 above show the real one.
+- **Other mods.** Do not use this together with BetterJunctions. Both change junction booking (`ReserveVehiclePathBlocks_Parallel`) in opposite directions.
+- **Inlining.** Checked by disassembling the shipped game DLL: every hooked function is called as a real function, none is inlined. `TPT.Status` also shows a counter per hook. A counter that stays at 0 while trucks drive means that hook never runs, for example after a game update.
+- **Collision channel.** Vehicle bodies use `ECC_Vehicle`, confirmed from the log lines in step 3 above.
 - **Game version.** `GameVersion` is set to `>=513885`, the build the current SML headers come from. An older game build will refuse to load the mod.
 
 ## Credits
