@@ -24,7 +24,10 @@ Open the console with `~`.
 | `TPT.Enabled 0/1` | 1 | 0 restores vanilla waiting at junctions and behind other trucks |
 | `TPT.Ghost 0/1` | 1 | 0 restores vanilla physical collision between vehicles |
 | `TPT.StationRadius <cm>` | 3000 | How close to a station's docking point a truck keeps vanilla queueing |
-| `TPT.Status` | | Prints station count, how many autopilot trucks are ghosting vs queueing, and how many components are ghosted |
+| `TPT.Status` | | Prints station count, how many autopilot trucks are ghosting vs queueing, vehicle counts by class, and how often each hook has removed a stop. Then lists every self-driving truck that is standing still: whether it is a ghost or vanilla (and why), and what it is braking for. The same block is written to the log every 30 s |
+| `TPT.Autopilot on/off [name filter]` | | Turns self-driving on or off for every vehicle at once, or only for those whose name contains the filter. Host or single player only |
+
+In chat, `/trucks on`, `/trucks off` and `/trucks off <name filter>` do the same as `TPT.Autopilot`. Chat commands run on the server, so any player on a dedicated server can use them.
 
 Settings reset to the defaults when the game restarts.
 
@@ -114,7 +117,8 @@ To uninstall, delete the `Mods\TruckPassThrough` folder from the game.
 
 The game's function bodies are not public. These points come from the headers and need confirming in-game:
 
-- **Inlining.** If the game build inlined one of the hooked functions into its caller, hooking it has no effect. The symptom is trucks still stopping for each other or at junctions.
+- **Inlining.** Checked by disassembling the shipped game DLL: every hooked function is called as a real function, none is inlined. `TPT.Status` also shows a counter per hook. A counter that stays at 0 while trucks drive means that hook never runs.
+- **Other mods.** BetterJunctions hooks `ReserveVehiclePathBlocks_Parallel` too, and changes how trucks near stations queue. Disable it when testing this mod.
 - **Other waiting.** Skipping the reservation stop target may not be the only thing that makes a truck wait at a junction.
 - **Collision channel.** The vehicle collision channel is assumed to be `ECC_Vehicle`. The log lines from step 3 above show the real one.
 - **Game version.** `GameVersion` is set to `>=513885`, the build the current SML headers come from. An older game build will refuse to load the mod.
