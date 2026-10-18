@@ -24,7 +24,7 @@ static TAutoConsoleVariable<int32> CVarGhost(
 	TEXT("1: wheeled vehicles have no physical collision with each other. 0: vanilla collision."));
 
 static TAutoConsoleVariable<float> CVarStationRadius(
-	TEXT("TPT.StationRadius"), 500.0f,
+	TEXT("TPT.StationRadius"), 0.0f,
 	TEXT("Distance (cm) from a truck station's docking point within which trucks keep vanilla queueing."));
 
 static FAutoConsoleCommandWithWorldArgsAndOutputDevice CmdStatus(
