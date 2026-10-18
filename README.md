@@ -27,19 +27,18 @@ Open the console with `~`.
 |---|---|---|
 | `TPT.Enabled 0/1` | 1 | 0 restores vanilla waiting at junctions and behind other trucks |
 | `TPT.Ghost 0/1` | 1 | 0 restores vanilla physical collision between vehicles |
-| `TPT.StationRadius <cm>` | 0 | How close to any station's docking point a truck keeps vanilla queueing, besides when docking. Changes apply immediately, with no need to restart autopilot |
+| `TPT.StationRadius <cm>` | 0 | How close to any station's docking point a truck keeps vanilla queueing, besides when docking. Changes apply immediately, with no need to restart autopilot, and are saved (see "Mods menu" below) |
 | `TPT.Route <name filter>` | | For every vehicle whose name contains the filter: its autopilot status, and whether each leg of its route can be driven. For a leg that cannot, it says why (separate road network, no road in that direction, or segments too steep or tight for this vehicle type), and where the closest reachable point and the blocking segments are, relative to where you stand and look |
 | `TPT.Status` | | Prints station count, how many autopilot trucks are ghosting vs queueing, vehicle counts by class, and how often each hook has removed a stop. Then lists every self-driving truck that is standing still: whether it is a ghost or vanilla (and why), and what it is braking for. The same block is written to the log every 30 s |
 | `TPT.Autopilot on/off [name filter]` | | Turns self-driving on or off for every vehicle at once, or only for those whose name contains the filter. Host or single player only |
 
 In chat, `/trucks on`, `/trucks off` and `/trucks off <name filter>` do the same as `TPT.Autopilot`. Chat commands run on the server, so any player on a dedicated server can use them.
 
-Settings set in the console reset to the defaults when the game restarts. To keep a different value, add it to `%LOCALAPPDATA%\FactoryGame\Saved\Config\Windows\Engine.ini`:
+## Mods menu
 
-```
-[SystemSettings]
-TPT.StationRadius=500
-```
+The station radius is also in the game's **Mods** menu, under Truck Pass Through, as "Station queueing radius (cm)". It applies to every save. SML saves it to `<Satisfactory>\FactoryGame\Configs\TruckPassThrough.cfg`. Setting `TPT.StationRadius` in the console saves it there too, so it survives a restart either way.
+
+`TPT.Enabled` and `TPT.Ghost` are for testing and reset to 1 when the game restarts.
 
 ## How it works
 
@@ -120,6 +119,7 @@ To uninstall, delete the `Mods\TruckPassThrough` folder from the game.
 - A fast truck catches a slow one on an open road and passes through it.
 - Two trucks share a station. Only one docks at a time. The second waits at the station and docks after the first leaves.
 - `TPT.Route <name>` on a vehicle with a working route says every leg is reachable.
+- Change the radius in the Mods menu, then run `TPT.Status`: it shows the new value. Set it with `TPT.StationRadius` in the console, restart the game: the Mods menu and `TPT.Status` both show that value.
 - After 3 or more minutes, no truck shows "Deadlocked".
 - `TPT.Enabled 0` brings back vanilla behavior. `TPT.Status` prints sensible numbers.
 - Everything still works after saving and reloading.
