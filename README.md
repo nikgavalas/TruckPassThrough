@@ -6,6 +6,8 @@ It also adds `/trucks off` and `/trucks on` to switch every truck's autopilot at
 
 Status: **1.0.0**. Tested in single player on Satisfactory 1.2 with about 40 trucks.
 
+**Windows only.** Works in single player and when you host a multiplayer game. Dedicated servers are not supported yet.
+
 ## What it does
 
 In 1.2, self-driving trucks wait for each other in two ways:
@@ -60,7 +62,7 @@ A post-hook on `AFGVehicleSubsystem::TickVehicleAutopilot` runs on the game thre
 
 Hooks are not installed in the Unreal editor, because the editor's FactoryGame has empty function bodies. The mod only does anything in the packaged game.
 
-The mod only needs to be installed where the game simulation runs: your own game in single player, or the host or dedicated server in multiplayer. In multiplayer, clients would also need it for the physical pass-through part.
+The truck simulation runs on whoever hosts the game, so the host needs the mod. Players who join do not, but without it they see trucks collide on their own screen. Releases contain only the Windows build. A dedicated server would need a WindowsServer or LinuxServer build, which is not published yet.
 
 ## Building
 
